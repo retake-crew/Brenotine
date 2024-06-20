@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-linux:
-    name: Build (ubuntu)
+    name: Build (Linux)
 
     runs-on: ubuntu-20.04
 
@@ -38,6 +38,25 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: output
+          path: ./output
+
+      - name: Create Release LINUX
+        id: create_release_linux
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0-LINUX  # Example tag for your release
+          release_name: Release v1.0.0-LINUX  # Example release name
+          body: |
+            Release v1.0.0 LINUX BUILD
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-output
           path: ./output
 
   build-windows:
@@ -71,37 +90,6 @@ jobs:
           name: outputWIN
           path: ./outputWIN
 
-  create-release:
-    needs: build-linux
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Create Release LINUX
-        id: create_release_linux
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v1.0.0-LINUX  # Example tag for your release
-          release_name: Release v1.0.0-LINUX  # Example release name
-          body: |
-            Release v1.0.0 LINUX BUILD
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: release-output
-          path: ./output
-
-  create-releaseWIN:
-    needs: build-windows
-
-    runs-on: windows-latest
-
-    steps:
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
