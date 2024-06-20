@@ -6,7 +6,7 @@ require("src.engine.vendcust")
 
 DiscordRPC = require("src.lib.discordrpc")
 
----@diagnostic disable-next-line: lowercase-global
+---@diagnostic disable-next-line: lowercase-global 
 utf8 = require("utf8")
 
 _Class = require("src.lib.hump.class")
