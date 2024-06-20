@@ -24,7 +24,7 @@ function Bullet:init(x, y, texture)
     -- TP added when you graze this bullet (Also given each frame after the first graze, 30x less at 30FPS)
     self.tp = 1.6 -- (1/10 of a defend, or cheap spell)
     -- Turn time reduced when you graze this bullet (Also applied each frame after the first graze, 30x less at 30FPS)
-    self.time_bonus = 1
+    self.time_bonus = 0.99
 
     -- Damage given to the player when hit by this bullet (defaults to 5x the attacker's attack stat)
     self.damage = nil
