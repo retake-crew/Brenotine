@@ -9,57 +9,6 @@ on:
       - main
 
 jobs:
-  build-linux:
-    name: Build (Linux)
-
-    runs-on: ubuntu-20.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          path: ./kristal
-
-      - name: Install Dependencies
-        run: |
-          pip3 install pe_tools
-
-      - name: Download LÖVE
-        run: |
-          curl -L https://github.com/love2d/love/releases/download/11.5/love-11.5-win64.zip -o love.zip
-          7z x love.zip
-          rm love.zip
-
-      - name: Build
-        run: |
-          python3 ./kristal/build.py --kristal ./kristal --love ./love-11.5-win64
-
-      - name: Upload Build
-        uses: actions/upload-artifact@v2
-        with:
-          name: output
-          path: ./output
-
-      - name: Create Release LINUX
-        id: create_release_linux
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SSH_PRIVATE_KEY: ${{ secrets.TEST }}
-        with:
-          tag_name: v1.0.0-LINUX  # Example tag for your release
-          release_name: Release v1.0.0-LINUX  # Example release name
-          body: |
-            Release v1.0.0 LINUX BUILD
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: release-output
-          path: ./output
-
   build-windows:
     name: Build (Windows)
 
@@ -88,15 +37,15 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: outputWIN
-          path: ./outputWIN
+          name: output
+          path: ./output
 
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SSH_PRIVATE_KEY: ${{ secrets.TEST }}
+          SSH_PRIVATE_KEY: ${{ secrets.TEST2 }}
         with:
           tag_name: v1.0.0-WIN  # Example tag for your release
           release_name: Release v1.0.0-WIN  # Example release name
@@ -109,4 +58,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: release-output
-          path: ./outputWIN
+          path: ./output
