@@ -44,7 +44,7 @@ function Testing:draw()
 
     if self.state == "GAMEPAD" then
         love.graphics.setFont(self.font)
-        love.graphics.printf("~ コントローラーテスト ~", 0, 16, 640, "center")
+        love.graphics.printf("~ Controller Test ~", 0, 16, 640, "center")
         self:drawGamepad()
     end
 

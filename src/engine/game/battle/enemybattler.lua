@@ -77,6 +77,8 @@ function EnemyBattler:init(actor, use_overlay)
     self.defeated = false
 
     self.current_target = "ANY"
+
+    self.element = 5
 end
 
 function EnemyBattler:setTired(bool)
@@ -498,6 +500,10 @@ end
 function EnemyBattler:getAttackTension(points)
     -- In Deltarune, this is always 10*2.5, except for JEVIL where it's 15*2.5
     return points / 25
+end
+
+function EnemyBattler:getElement()
+    return self.element
 end
 
 function EnemyBattler:getAttackDamage(damage, battler, points)

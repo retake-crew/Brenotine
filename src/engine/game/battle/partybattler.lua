@@ -33,6 +33,8 @@ function PartyBattler:init(chara, x, y)
     self:addChild(self.target_sprite)
 
     self.targeted = false
+
+    self.element = 1
 end
 
 function PartyBattler:canTarget()
@@ -71,10 +73,12 @@ function PartyBattler:getElementReduction(element)
 
     if (element == 0) then return 1 end
 
-    -- dummy values since we don't have elements
+    -- dummy values still but im just trying stuff out? TEST LOL!
     local armor_elements = {
         {element = 0, element_reduce_amount = 0},
-        {element = 0, element_reduce_amount = 0}
+        {element = 1, element_reduce_amount = 1},
+        {element = 2, element_reduce_amount = 3},
+        {element = 3, element_reduce_amount = 5}
     }
 
     local reduction = 1
@@ -99,8 +103,7 @@ function PartyBattler:hurt(amount, exact, color, options)
             if self.defending then
                 amount = math.ceil((2 * amount) / 3)
             end
-            -- we don't have elements right now
-            local element = 0
+            local element = self.element
             amount = math.ceil((amount * self:getElementReduction(element)))
         end
 
@@ -109,8 +112,7 @@ function PartyBattler:hurt(amount, exact, color, options)
         -- We're targeting everyone.
         if not exact then
             amount = self:calculateDamage(amount)
-            -- we don't have elements right now
-            local element = 0
+            local element = self.element
             amount = math.ceil((amount * self:getElementReduction(element)))
 
             if self.defending then
