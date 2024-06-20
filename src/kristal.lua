@@ -400,8 +400,6 @@ function Kristal.onKeyPressed(key, is_repeat)
     if not is_repeat and Input.shouldProcess(key) then
         if key == "f2" or (Input.is("fast_forward", key) and not console_open) then
             FAST_FORWARD = not FAST_FORWARD
-        elseif key == "f3" then
-            love.system.openURL("https://kristal.cc/wiki")
         elseif key == "f4" or (key == "return" and Input.alt()) then
             Kristal.Config["fullscreen"] = not Kristal.Config["fullscreen"]
             love.window.setFullscreen(Kristal.Config["fullscreen"])
@@ -1378,7 +1376,7 @@ function Kristal.loadConfig()
         fps = 30,
         vSync = false,
         frameSkip = false,
-        debug = false,
+        debug = true,
         fullscreen = false,
         simplifyVFX = false,
         autoRun = false,
