@@ -45,6 +45,7 @@ jobs:
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SSH_PRIVATE_KEY: ${{ secrets.TEST }}
         with:
           tag_name: v1.0.0-LINUX  # Example tag for your release
           release_name: Release v1.0.0-LINUX  # Example release name
@@ -95,6 +96,7 @@ jobs:
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SSH_PRIVATE_KEY: ${{ secrets.TEST }}
         with:
           tag_name: v1.0.0-WIN  # Example tag for your release
           release_name: Release v1.0.0-WIN  # Example release name
