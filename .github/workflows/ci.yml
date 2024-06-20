@@ -1,6 +1,12 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build-linux:
@@ -33,3 +39,84 @@ jobs:
         with:
           name: output
           path: ./output
+
+  build-windows:
+    name: Build (Windows)
+
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: ./kristal
+
+      - name: Install Dependencies
+        run: |
+          pip install pe_tools
+
+      - name: Download LÖVE
+        run: |
+          curl -L https://github.com/love2d/love/releases/download/11.5/love-11.5-win64.zip -o love.zip
+          7z x love.zip
+          rm love.zip
+
+      - name: Build
+        run: |
+          python ./kristal/build.py --kristal ./kristal --love ./love-11.5-win64
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: outputWIN
+          path: ./outputWIN
+
+  create-release:
+    needs: build-linux
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create Release LINUX
+        id: create_release_linux
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0-LINUX  # Example tag for your release
+          release_name: Release v1.0.0-LINUX  # Example release name
+          body: |
+            Release v1.0.0 LINUX BUILD
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-output
+          path: ./output
+
+  create-releaseWIN:
+    needs: build-windows
+
+    runs-on: windows-latest
+
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0-WIN  # Example tag for your release
+          release_name: Release v1.0.0-WIN  # Example release name
+          body: |
+            Release v1.0.0 WINDOWS EDITION
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-output
+          path: ./outputWIN
